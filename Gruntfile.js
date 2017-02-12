@@ -4,23 +4,29 @@ module.exports = function(grunt) {
 		watch: {
 			scss: {
 				files: ['src/sass/**/*.sass'],
-				tasks: ['sass', 'autoprefixer']
+				tasks: ['sass', 'autoprefixer'],
+				options: {
+					interrupt: true
+				}
 			},
-			jade: {
-				files: ['src/jade/**/*.jade'],
-				tasks: ['jade']
+			pug: {
+				files: ['src/pug/**/*.pug'],
+				tasks: ['pug'],
+				options: {
+					interrupt: true
+				}
 			}
 		},
-		jade: {
+		pug: {
 			compile: {
 				options: {
 					pretty: true
 				},
 				files: [{
-					src: ['**/*.jade', '!**/_*.jade'],
+					src: ['**/*.pug', '!**/_*.pug'],
 					dest: "dist/",
 					ext: ".html",
-					cwd: "src/jade/",
+					cwd: "src/pug/",
 					expand: true
 				}]
 			}
@@ -54,7 +60,10 @@ module.exports = function(grunt) {
 
 	// Load the Grunt plugins.
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-jade');
+	grunt.loadNpmTasks('grunt-contrib-pug');
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-sass');
+
+	grunt.registerTask('default', ['watch']);
+	grunt.registerTask('build', ['pug','sass','autoprefixer']);
 };
